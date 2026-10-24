@@ -1,0 +1,2661 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KUIDAPROMOÇÕES — O seu Bolso Agradece!</title>
+    <meta name="description" content="KUIDAPROMOÇÕES — O seu Bolso Agradece! As melhores ofertas, promoções reais e cupons de desconto selecionados diariamente.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        kuida: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        .font-display {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        /* Subtle pulse animation for live badge */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.85); opacity: 0.8; }
+            50% { transform: scale(1.15); opacity: 0.4; }
+            100% { transform: scale(0.85); opacity: 0.8; }
+        }
+        .animate-pulse-ring {
+            animation: pulse-ring 2s infinite ease-in-out;
+        }
+        /* Ticket cutout effect for coupons */
+        .coupon-card {
+            position: relative;
+        }
+        .coupon-card::before,
+        .coupon-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            background-color: #f8fafc;
+            border-radius: 9999px;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+        .coupon-card::before {
+            left: -11px;
+            border-right: 1px solid #e2e8f0;
+        }
+        .coupon-card::after {
+            right: -11px;
+            border-left: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-orange-500 selection:text-white">
+
+    <!-- 1. TOP ANNOUNCEMENT BAR -->
+    <div id="topAnnouncementBar" class="bg-slate-900 text-white text-xs sm:text-sm py-2 px-4 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2 mx-auto sm:mx-0 text-center sm:text-left">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-orange-500 text-white uppercase tracking-wider">
+                    <i class="fa-solid fa-bolt mr-1"></i> Oficial
+                </span>
+                <span id="announcementTextDisplay" class="font-medium text-slate-200">
+                    🔥 Bem-vindo ao KUIDAPROMOÇÕES — O seu Bolso Agradece! Ofertas reais selecionadas todos os dias.
+                </span>
+            </div>
+            <div class="hidden md:flex items-center gap-4 text-xs font-medium text-slate-300">
+                <button onclick="openShareSiteModal()" class="hover:text-orange-400 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-share-nodes text-orange-400"></i> Compartilhar Link do Site
+                </button>
+                <span class="text-slate-700">|</span>
+                <span id="syncStatusIndicator" class="inline-flex items-center gap-1.5 text-emerald-400">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Sincronizado em Tempo Real
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. MAIN HEADER / NAVBAR -->
+    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3.5">
+                
+                <!-- Brand Logo + Mobile Actions -->
+                <div class="flex items-center justify-between">
+                    <a href="#" onclick="switchMainTab('offers'); return false;" class="flex items-center gap-3 group">
+                        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-500 flex items-center justify-center text-white shadow-md shadow-orange-500/25 group-hover:scale-105 transition-transform">
+                            <i class="fa-solid fa-tags text-xl sm:text-2xl"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-1.5">
+                                <span class="font-display font-black text-xl sm:text-2xl tracking-tight text-slate-900">
+                                    KUIDA<span class="text-orange-600">PROMOÇÕES</span>
+                                </span>
+                            </div>
+                            <p class="text-xs sm:text-sm font-semibold text-emerald-600 flex items-center gap-1 -mt-0.5">
+                                <i class="fa-solid fa-piggy-bank text-xs"></i> O seu Bolso Agradece!
+                            </p>
+                        </div>
+                    </a>
+
+                    <!-- Mobile Quick Buttons -->
+                    <div class="flex items-center gap-2 lg:hidden">
+                        <button onclick="openShareSiteModal()" title="Compartilhar Link do Site" class="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
+                            <i class="fa-solid fa-share-nodes text-base"></i>
+                        </button>
+                        <button onclick="handleAdminAccess()" class="px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition">
+                            <i class="fa-solid fa-sliders text-orange-400"></i>
+                            <span>Gerenciar</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="flex-1 max-w-xl w-full mx-auto lg:mx-4">
+                    <div class="relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                        <input 
+                            type="text" 
+                            id="searchInput"
+                            oninput="handleSearchInput(this.value)"
+                            placeholder="Buscar produto, loja, categoria ou cupom..." 
+                            class="w-full pl-11 pr-10 py-2.5 sm:py-3 bg-slate-100 hover:bg-slate-100/80 focus:bg-white rounded-2xl text-sm text-slate-800 placeholder-slate-400 border border-transparent focus:border-orange-500 focus:ring-4 focus:ring-orange-500/15 focus:outline-none transition"
+                        >
+                        <button 
+                            id="clearSearchBtn" 
+                            onclick="clearSearch()" 
+                            class="hidden absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1"
+                        >
+                            <i class="fa-solid fa-circle-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Desktop Action Buttons -->
+                <div class="hidden lg:flex items-center gap-2.5">
+                    <!-- Share Site Link Button -->
+                    <button 
+                        onclick="openShareSiteModal()" 
+                        class="px-3.5 py-2.5 rounded-xl border border-slate-200 hover:border-orange-300 bg-white hover:bg-orange-50/50 text-slate-700 text-xs font-bold flex items-center gap-2 transition shadow-sm"
+                    >
+                        <i class="fa-solid fa-link text-orange-500"></i>
+                        <span>Link do Site</span>
+                    </button>
+
+                    <!-- VIP WhatsApp Button -->
+                    <button 
+                        onclick="openVipGroupLink('whatsapp')" 
+                        class="px-3.5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-2 transition shadow-sm shadow-emerald-600/20"
+                    >
+                        <i class="fa-brands fa-whatsapp text-sm"></i>
+                        <span>Grupo VIP</span>
+                    </button>
+
+                    <!-- Admin Panel Toggle / Open Button -->
+                    <button 
+                        onclick="handleAdminAccess()" 
+                        id="desktopAdminBtn"
+                        class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold flex items-center gap-2 transition shadow-sm"
+                    >
+                        <i class="fa-solid fa-plus-circle text-orange-400 text-sm"></i>
+                        <span>Painel Admin</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs Bar -->
+        <div class="bg-slate-50/80 border-t border-slate-200/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between overflow-x-auto no-scrollbar">
+                <div class="flex items-center space-x-1 sm:space-x-2 py-1.5">
+                    <button 
+                        onclick="switchMainTab('offers')" 
+                        id="tabBtn-offers"
+                        class="main-tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap transition bg-orange-600 text-white shadow-sm"
+                    >
+                        <i class="fa-solid fa-fire"></i>
+                        <span>Ofertas</span>
+                        <span id="badgeCountOffers" class="px-2 py-0.5 text-[11px] rounded-full bg-white/20 text-white font-extrabold">0</span>
+                    </button>
+
+                    <button 
+                        onclick="switchMainTab('featured')" 
+                        id="tabBtn-featured"
+                        class="main-tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap transition text-slate-600 hover:bg-slate-200/70"
+                    >
+                        <i class="fa-solid fa-star text-amber-500"></i>
+                        <span>Destaques</span>
+                        <span id="badgeCountFeatured" class="px-2 py-0.5 text-[11px] rounded-full bg-slate-200 text-slate-700 font-extrabold">0</span>
+                    </button>
+
+                    <button 
+                        onclick="switchMainTab('coupons')" 
+                        id="tabBtn-coupons"
+                        class="main-tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap transition text-slate-600 hover:bg-slate-200/70"
+                    >
+                        <i class="fa-solid fa-ticket text-emerald-600"></i>
+                        <span>Cupons de Desconto</span>
+                        <span id="badgeCountCoupons" class="px-2 py-0.5 text-[11px] rounded-full bg-slate-200 text-slate-700 font-extrabold">0</span>
+                    </button>
+
+                    <button 
+                        onclick="switchMainTab('vip')" 
+                        id="tabBtn-vip"
+                        class="main-tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap transition text-slate-600 hover:bg-slate-200/70"
+                    >
+                        <i class="fa-brands fa-whatsapp text-emerald-600"></i>
+                        <span>Canais & Grupos VIP</span>
+                    </button>
+                </div>
+
+                <!-- Active Admin Mode Badge -->
+                <div id="adminModeIndicator" class="hidden items-center gap-2 py-1 pl-3">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-100 border border-amber-300 text-amber-900 text-xs font-bold whitespace-nowrap">
+                        <i class="fa-solid fa-unlock-keyhole text-amber-600"></i>
+                        Modo Edição Ativo
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 3. HERO BANNER (DYNAMIC & CUSTOMIZABLE) -->
+    <section id="heroBannerSection" class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white relative overflow-hidden border-b border-slate-800">
+        <!-- Decorative background glow -->
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-orange-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 relative z-10">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                <div class="max-w-2xl">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-300 text-xs font-bold mb-3">
+                        <i class="fa-solid fa-check-circle text-orange-400"></i>
+                        <span>Promoções Verificadas & Links Seguros</span>
+                    </div>
+                    <h1 id="heroTitleDisplay" class="font-display font-black text-2xl sm:text-3xl lg:text-4xl tracking-tight text-white leading-tight">
+                        KUIDAPROMOÇÕES: <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300">O seu Bolso Agradece!</span>
+                    </h1>
+                    <p id="heroSubtitleDisplay" class="text-slate-300 text-sm sm:text-base mt-2 leading-relaxed">
+                        Acompanhe em tempo real as melhores ofertas, quedas de preço e cupons de desconto das maiores lojas do Brasil.
+                    </p>
+                </div>
+
+                <!-- Hero Quick Actions -->
+                <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                    <button 
+                        onclick="openVipGroupLink('whatsapp')" 
+                        class="flex-1 md:flex-initial justify-center px-4 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-emerald-500/25 transition"
+                    >
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>Entrar no Grupo VIP</span>
+                    </button>
+                    <button 
+                        onclick="openShareSiteModal()" 
+                        class="flex-1 md:flex-initial justify-center px-4 py-3 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition"
+                    >
+                        <i class="fa-solid fa-share-nodes text-orange-400"></i>
+                        <span>Compartilhar Site</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. MAIN CONTENT AREA -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+        <!-- ==========================================
+             VIEW 1 & 2: OFFERS & FEATURED OFFERS
+        =========================================== -->
+        <div id="view-offers" class="space-y-6">
+            
+            <!-- Category Pills + Store & Sort Filters -->
+            <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm space-y-4">
+                
+                <!-- Category Filter Bar -->
+                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1" id="categoryPillsContainer">
+                    <!-- Populated dynamically via JS -->
+                </div>
+
+                <!-- Store Filter, Sort & Quick Add Button -->
+                <div class="pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="flex flex-wrap items-center gap-2.5">
+                        <!-- Store Filter -->
+                        <div class="relative flex items-center">
+                            <i class="fa-solid fa-store absolute left-3 text-slate-400 text-xs pointer-events-none"></i>
+                            <select 
+                                id="storeFilterSelect" 
+                                onchange="applyFiltersAndRender()"
+                                class="pl-8 pr-8 py-2 bg-slate-100 hover:bg-slate-200/70 rounded-xl text-xs font-semibold text-slate-700 border-0 focus:ring-2 focus:ring-orange-500 cursor-pointer"
+                            >
+                                <option value="ALL">Todas as Lojas</option>
+                            </select>
+                        </div>
+
+                        <!-- Sort Select -->
+                        <div class="relative flex items-center">
+                            <i class="fa-solid fa-arrow-down-wide-short absolute left-3 text-slate-400 text-xs pointer-events-none"></i>
+                            <select 
+                                id="sortFilterSelect" 
+                                onchange="applyFiltersAndRender()"
+                                class="pl-8 pr-8 py-2 bg-slate-100 hover:bg-slate-200/70 rounded-xl text-xs font-semibold text-slate-700 border-0 focus:ring-2 focus:ring-orange-500 cursor-pointer"
+                            >
+                                <option value="newest">Mais Recentes</option>
+                                <option value="discount_desc">Maior Desconto (%)</option>
+                                <option value="price_asc">Menor Preço (R$)</option>
+                                <option value="savings_desc">Maior Economia (R$)</option>
+                            </select>
+                        </div>
+
+                        <!-- Active Filter Reset -->
+                        <button 
+                            id="resetFiltersBtn"
+                            onclick="resetAllFilters()"
+                            class="hidden px-3 py-2 rounded-xl bg-orange-50 text-orange-700 hover:bg-orange-100 text-xs font-bold items-center gap-1.5 transition"
+                        >
+                            <i class="fa-solid fa-rotate-left"></i> Limpar Filtros
+                        </button>
+                    </div>
+
+                    <div class="flex items-center justify-between sm:justify-end gap-3">
+                        <span id="offersResultCounter" class="text-xs font-semibold text-slate-500">
+                            Carregando ofertas...
+                        </span>
+                        <button 
+                            onclick="openAdminModal('offer')" 
+                            class="px-3.5 py-2 rounded-xl bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition"
+                        >
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Adicionar Oferta</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Skeleton (shown briefly while connecting to cloud) -->
+            <div id="loadingOffersState" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                <div class="bg-white rounded-2xl p-4 border border-slate-200 animate-pulse space-y-4">
+                    <div class="w-full h-48 bg-slate-200 rounded-xl"></div>
+                    <div class="h-4 bg-slate-200 rounded w-1/3"></div>
+                    <div class="h-5 bg-slate-200 rounded w-full"></div>
+                    <div class="h-8 bg-slate-200 rounded w-1/2"></div>
+                    <div class="h-10 bg-slate-200 rounded-xl w-full"></div>
+                </div>
+                <div class="bg-white rounded-2xl p-4 border border-slate-200 animate-pulse space-y-4 hidden sm:block">
+                    <div class="w-full h-48 bg-slate-200 rounded-xl"></div>
+                    <div class="h-4 bg-slate-200 rounded w-1/3"></div>
+                    <div class="h-5 bg-slate-200 rounded w-full"></div>
+                    <div class="h-8 bg-slate-200 rounded w-1/2"></div>
+                    <div class="h-10 bg-slate-200 rounded-xl w-full"></div>
+                </div>
+                <div class="bg-white rounded-2xl p-4 border border-slate-200 animate-pulse space-y-4 hidden lg:block">
+                    <div class="w-full h-48 bg-slate-200 rounded-xl"></div>
+                    <div class="h-4 bg-slate-200 rounded w-1/3"></div>
+                    <div class="h-5 bg-slate-200 rounded w-full"></div>
+                    <div class="h-8 bg-slate-200 rounded w-1/2"></div>
+                    <div class="h-10 bg-slate-200 rounded-xl w-full"></div>
+                </div>
+                <div class="bg-white rounded-2xl p-4 border border-slate-200 animate-pulse space-y-4 hidden xl:block">
+                    <div class="w-full h-48 bg-slate-200 rounded-xl"></div>
+                    <div class="h-4 bg-slate-200 rounded w-1/3"></div>
+                    <div class="h-5 bg-slate-200 rounded w-full"></div>
+                    <div class="h-8 bg-slate-200 rounded w-1/2"></div>
+                    <div class="h-10 bg-slate-200 rounded-xl w-full"></div>
+                </div>
+            </div>
+
+            <!-- Empty State (Shown when there are 0 real offers registered) -->
+            <div id="emptyOffersState" class="hidden bg-white rounded-3xl border-2 border-dashed border-slate-300 p-8 sm:p-12 text-center max-w-2xl mx-auto my-4">
+                <div class="w-20 h-20 rounded-3xl bg-orange-50 border border-orange-100 text-orange-600 flex items-center justify-center mx-auto mb-5 shadow-sm">
+                    <i class="fa-solid fa-tags text-3xl"></i>
+                </div>
+                <h2 id="emptyStateTitle" class="font-display font-extrabold text-xl sm:text-2xl text-slate-900">
+                    Nenhuma oferta cadastrada no momento
+                </h2>
+                <p id="emptyStateDescription" class="text-slate-600 text-sm sm:text-base mt-2 max-w-lg mx-auto leading-relaxed">
+                    O site <strong>KUIDAPROMOÇÕES</strong> está pronto e sem dados fictícios de demonstração. Adicione agora as suas promoções reais pelo Painel de Gestão ou compartilhe o link do site!
+                </p>
+
+                <div class="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3">
+                    <button 
+                        onclick="openAdminModal('offer')" 
+                        class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-orange-600 hover:bg-orange-700 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-orange-600/25 transition"
+                    >
+                        <i class="fa-solid fa-plus-circle"></i>
+                        <span>Cadastrar Primeira Oferta Real</span>
+                    </button>
+                    <button 
+                        onclick="openShareSiteModal()" 
+                        class="w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm flex items-center justify-center gap-2 transition"
+                    >
+                        <i class="fa-solid fa-share-nodes text-orange-600"></i>
+                        <span>Pegar Link para Compartilhar</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Offers Grid Container -->
+            <div id="offersGridContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                <!-- Populated dynamically with real offers -->
+            </div>
+        </div>
+
+        <!-- ==========================================
+             VIEW 3: DISCOUNT COUPONS
+        =========================================== -->
+        <div id="view-coupons" class="hidden space-y-6">
+            <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="font-display font-extrabold text-lg sm:text-xl text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-ticket text-emerald-600"></i>
+                        <span>Cupons de Desconto Ativos</span>
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-0.5">
+                        Copie o código do cupom e aplique no carrinho da loja parceira para economizar ainda mais.
+                    </p>
+                </div>
+                <button 
+                    onclick="openAdminModal('coupon')" 
+                    class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition whitespace-nowrap"
+                >
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Adicionar Cupom</span>
+                </button>
+            </div>
+
+            <!-- Empty Coupons State -->
+            <div id="emptyCouponsState" class="hidden bg-white rounded-3xl border-2 border-dashed border-slate-300 p-8 sm:p-12 text-center max-w-2xl mx-auto">
+                <div class="w-16 h-16 rounded-2xl bg-emerald-50 border border-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-solid fa-ticket text-2xl"></i>
+                </div>
+                <h3 class="font-display font-extrabold text-lg sm:text-xl text-slate-900">
+                    Nenhum cupom cadastrado no momento
+                </h3>
+                <p class="text-slate-600 text-sm mt-2 max-w-md mx-auto">
+                    Cadastre cupons exclusivos da Shopee, Mercado Livre, Amazon, Magalu, AliExpress e outras lojas para os visitantes copiarem com 1 clique.
+                </p>
+                <button 
+                    onclick="openAdminModal('coupon')" 
+                    class="mt-6 px-5 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm inline-flex items-center gap-2 shadow-md transition"
+                >
+                    <i class="fa-solid fa-plus-circle"></i>
+                    <span>Cadastrar Primeiro Cupom</span>
+                </button>
+            </div>
+
+            <!-- Coupons Grid Container -->
+            <div id="couponsGridContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <!-- Populated dynamically with real coupons -->
+            </div>
+        </div>
+
+        <!-- ==========================================
+             VIEW 4: VIP GROUPS & CHANNELS
+        =========================================== -->
+        <div id="view-vip" class="hidden space-y-6">
+            <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
+                <div class="max-w-3xl mx-auto text-center space-y-4 relative z-10">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-bold uppercase tracking-wider">
+                        <i class="fa-solid fa-bell"></i> Não Perca Nenhuma Promoção Relâmpago
+                    </span>
+                    <h2 class="font-display font-black text-2xl sm:text-4xl">
+                        Entre nos Grupos VIP do <span class="text-orange-400">KUIDAPROMOÇÕES</span>
+                    </h2>
+                    <p class="text-slate-300 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+                        As melhores ofertas e bugs de preço acabam em poucos minutos! Participe gratuitamente dos nossos canais oficiais e receba os alertas direto no seu celular.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-8 relative z-10 max-w-5xl mx-auto">
+                    <!-- WhatsApp VIP Card -->
+                    <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-6 flex flex-col justify-between hover:border-emerald-400/50 transition">
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-emerald-500 flex items-center justify-center text-white text-2xl shadow-lg shadow-emerald-500/30 mb-4">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </div>
+                            <h3 class="font-display font-bold text-lg text-white">Grupo VIP no WhatsApp</h3>
+                            <p class="text-slate-300 text-xs sm:text-sm mt-2 leading-relaxed">
+                                Receba promoções selecionadas e cupons exclusivos no grupo silencioso (apenas administradores enviam mensagens).
+                            </p>
+                        </div>
+                        <button 
+                            onclick="openVipGroupLink('whatsapp')" 
+                            class="mt-6 w-full py-3 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md transition"
+                        >
+                            <span>Acessar WhatsApp VIP</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                        </button>
+                    </div>
+
+                    <!-- Telegram Channel Card -->
+                    <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-6 flex flex-col justify-between hover:border-sky-400/50 transition">
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-sky-500 flex items-center justify-center text-white text-2xl shadow-lg shadow-sky-500/30 mb-4">
+                                <i class="fa-brands fa-telegram"></i>
+                            </div>
+                            <h3 class="font-display font-bold text-lg text-white">Canal Oficial no Telegram</h3>
+                            <p class="text-slate-300 text-xs sm:text-sm mt-2 leading-relaxed">
+                                Notificações instantâneas com histórico completo de ofertas e buscador integrado no aplicativo do Telegram.
+                            </p>
+                        </div>
+                        <button 
+                            onclick="openVipGroupLink('telegram')" 
+                            class="mt-6 w-full py-3 px-4 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md transition"
+                        >
+                            <span>Entrar no Telegram</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                        </button>
+                    </div>
+
+                    <!-- Instagram / Social Card -->
+                    <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-6 flex flex-col justify-between hover:border-pink-400/50 transition">
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-500 via-pink-500 to-purple-600 flex items-center justify-center text-white text-2xl shadow-lg shadow-pink-500/30 mb-4">
+                                <i class="fa-brands fa-instagram"></i>
+                            </div>
+                            <h3 class="font-display font-bold text-lg text-white">Siga no Instagram</h3>
+                            <p class="text-slate-300 text-xs sm:text-sm mt-2 leading-relaxed">
+                                Acompanhe os Stories com achadinhos diários, comparativos de preços e enquetes de produtos em promoção.
+                            </p>
+                        </div>
+                        <button 
+                            onclick="openVipGroupLink('instagram')" 
+                            class="mt-6 w-full py-3 px-4 rounded-xl bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md transition"
+                        >
+                            <span>Ver Perfil Oficial</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-white/10 text-center">
+                    <button 
+                        onclick="openAdminModal('settings')" 
+                        class="text-xs font-semibold text-slate-300 hover:text-orange-400 inline-flex items-center gap-1.5 transition"
+                    >
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Administrador: Configurar os links dos grupos no Painel Admin</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 5. FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                <!-- Col 1: Brand -->
+                <div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-orange-600 flex items-center justify-center text-white">
+                            <i class="fa-solid fa-tags text-lg"></i>
+                        </div>
+                        <div>
+                            <span class="font-display font-black text-lg text-white">
+                                KUIDA<span class="text-orange-500">PROMOÇÕES</span>
+                            </span>
+                            <p class="text-xs font-bold text-emerald-400">O seu Bolso Agradece!</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-3 leading-relaxed">
+                        Plataforma dedicada a reunir as melhores ofertas, promoções e cupons de desconto das lojas mais confiáveis da internet.
+                    </p>
+                </div>
+
+                <!-- Col 2: Quick Links -->
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-white mb-3">Acesso Rápido</h4>
+                    <ul class="space-y-2 text-xs font-medium">
+                        <li>
+                            <button onclick="switchMainTab('offers')" class="hover:text-orange-400 transition">🔥 Todas as Ofertas</button>
+                        </li>
+                        <li>
+                            <button onclick="switchMainTab('coupons')" class="hover:text-orange-400 transition">🎟️ Cupons de Desconto</button>
+                        </li>
+                        <li>
+                            <button onclick="switchMainTab('vip')" class="hover:text-orange-400 transition">📢 Grupos VIP (WhatsApp & Telegram)</button>
+                        </li>
+                        <li>
+                            <button onclick="openShareSiteModal()" class="hover:text-orange-400 transition">🔗 Link do Site para Compartilhar</button>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Disclaimer & Admin -->
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-white mb-3">Aviso Importante</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Os preços, cupons e a disponibilidade de estoque podem sofrer alterações pelas lojas vendedoras a qualquer momento sem aviso prévio. Verifique sempre o valor final no carrinho da loja.
+                    </p>
+                    <div class="mt-4">
+                        <button 
+                            onclick="handleAdminAccess()" 
+                            class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold inline-flex items-center gap-2 border border-slate-700 transition"
+                        >
+                            <i class="fa-solid fa-lock text-orange-400"></i>
+                            <span>Acessar Painel Administrativo</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
+                <p>© <span id="currentYearFooter">2026</span> <strong>KUIDAPROMOÇÕES — O seu Bolso Agradece!</strong> Todos os direitos reservados.</p>
+                <p class="flex items-center gap-1.5">
+                    <span>Feito para economizar de verdade</span>
+                    <i class="fa-solid fa-bolt text-orange-500"></i>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- =========================================================================
+         MODAL 1: PAINEL DE GESTÃO / ADMIN (ADD/EDIT OFFERS, COUPONS, SETTINGS)
+    ========================================================================== -->
+    <div id="adminModal" class="fixed inset-0 z-50 hidden bg-slate-900/75 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+        <div class="bg-white w-full max-w-4xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh]">
+            
+            <!-- Modal Header -->
+            <div class="bg-slate-900 text-white px-5 py-4 flex items-center justify-between border-b border-slate-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-orange-600 flex items-center justify-center text-white">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-extrabold text-base sm:text-lg leading-none">
+                            Painel de Gestão — KUIDAPROMOÇÕES
+                        </h3>
+                        <p class="text-[11px] text-slate-400 mt-1">
+                            Adicione promoções reais, cupons e configure os links do site em tempo real.
+                        </p>
+                    </div>
+                </div>
+                <button onclick="closeAdminModal()" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Admin Modal Tabs -->
+            <div class="bg-slate-100 px-4 py-2 border-b border-slate-200 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+                <button 
+                    onclick="switchAdminTab('offer')" 
+                    id="adminTabBtn-offer"
+                    class="admin-tab-btn px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-2 whitespace-nowrap bg-white text-orange-600 shadow-sm"
+                >
+                    <i class="fa-solid fa-tag"></i>
+                    <span id="adminOfferTabLabel">Nova Oferta</span>
+                </button>
+                <button 
+                    onclick="switchAdminTab('coupon')" 
+                    id="adminTabBtn-coupon"
+                    class="admin-tab-btn px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-2 whitespace-nowrap text-slate-600 hover:bg-white/60"
+                >
+                    <i class="fa-solid fa-ticket"></i>
+                    <span id="adminCouponTabLabel">Novo Cupom</span>
+                </button>
+                <button 
+                    onclick="switchAdminTab('postgen')" 
+                    id="adminTabBtn-postgen"
+                    class="admin-tab-btn px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-2 whitespace-nowrap text-slate-600 hover:bg-white/60"
+                >
+                    <i class="fa-brands fa-whatsapp text-emerald-600"></i>
+                    <span>Gerador de Post</span>
+                </button>
+                <button 
+                    onclick="switchAdminTab('settings')" 
+                    id="adminTabBtn-settings"
+                    class="admin-tab-btn px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-2 whitespace-nowrap text-slate-600 hover:bg-white/60"
+                >
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Links & Configurações</span>
+                </button>
+                <button 
+                    onclick="switchAdminTab('backup')" 
+                    id="adminTabBtn-backup"
+                    class="admin-tab-btn px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-2 whitespace-nowrap text-slate-600 hover:bg-white/60"
+                >
+                    <i class="fa-solid fa-database"></i>
+                    <span>Backup</span>
+                </button>
+            </div>
+
+            <!-- Modal Body (Scrollable) -->
+            <div class="p-5 sm:p-6 overflow-y-auto flex-1 space-y-6">
+
+                <!-- ==========================================
+                     ADMIN TAB 1: ADD / EDIT OFFER FORM
+                =========================================== -->
+                <form id="adminOfferForm" onsubmit="saveOffer(event)" class="space-y-5">
+                    <input type="hidden" id="offerEditId" value="">
+
+                    <div class="flex items-center justify-between bg-orange-50 border border-orange-200 rounded-2xl p-3.5">
+                        <div class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-circle-info text-orange-600 text-lg"></i>
+                            <span id="offerFormBannerText" class="text-xs sm:text-sm font-bold text-orange-950">
+                                Preencha os dados da promoção para publicar imediatamente na vitrine.
+                            </span>
+                        </div>
+                        <button 
+                            type="button" 
+                            id="cancelOfferEditBtn"
+                            onclick="resetOfferForm()" 
+                            class="hidden px-3 py-1 rounded-lg bg-white text-slate-700 border border-slate-300 text-xs font-bold hover:bg-slate-100"
+                        >
+                            Cancelar Edição
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Product Title -->
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Título do Produto / Oferta *</label>
+                            <input 
+                                type="text" 
+                                id="offerTitle" 
+                                required 
+                                placeholder="Ex: Smart TV 50” 4K Samsung Crystal UHD Gaming Hub"
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 focus:outline-none"
+                            >
+                        </div>
+
+                        <!-- Store Name -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Loja Parceira *</label>
+                            <input 
+                                type="text" 
+                                id="offerStore" 
+                                list="storePresetsList"
+                                required 
+                                placeholder="Ex: Amazon, Mercado Livre, Shopee..."
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 focus:outline-none"
+                            >
+                            <datalist id="storePresetsList">
+                                <option value="Amazon">
+                                <option value="Mercado Livre">
+                                <option value="Shopee">
+                                <option value="Magalu">
+                                <option value="AliExpress">
+                                <option value="Shein">
+                                <option value="Casas Bahia">
+                                <option value="KaBuM!">
+                                <option value="Nike">
+                                <option value="Netshoes">
+                            </datalist>
+                        </div>
+
+                        <!-- Category -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Categoria *</label>
+                            <input 
+                                type="text" 
+                                id="offerCategory" 
+                                list="categoryPresetsList"
+                                required 
+                                placeholder="Ex: Eletrônicos, Smartphones..."
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 focus:outline-none"
+                            >
+                            <datalist id="categoryPresetsList">
+                                <option value="Eletrônicos">
+                                <option value="Smartphones">
+                                <option value="Casa & Cozinha">
+                                <option value="Eletrodomésticos">
+                                <option value="Informática">
+                                <option value="Games">
+                                <option value="Moda & Calçados">
+                                <option value="Beleza & Perfumaria">
+                                <option value="Supermercado">
+                                <option value="Esporte & Lazer">
+                            </datalist>
+                        </div>
+
+                        <!-- Price From (Original) -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Preço Antigo / De (R$) <span class="text-slate-400 font-normal">(Opcional)</span></label>
+                            <input 
+                                type="number" 
+                                step="0.01" 
+                                min="0"
+                                id="offerOldPrice" 
+                                oninput="updateLiveDiscountPreview()"
+                                placeholder="Ex: 2499.90"
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 focus:outline-none"
+                            >
+                        </div>
+
+                        <!-- Promo Price (Current) -->
+                        <div>
+                            <label class="block text-xs font-bold text-emerald-700 mb-1">Preço Promocional / Por (R$) *</label>
+                            <div class="relative">
+                                <input 
+                                    type="number" 
+                                    step="0.01" 
+                                    min="0.01"
+                                    id="offerPromoPrice" 
+                                    required 
+                                    oninput="updateLiveDiscountPreview()"
+                                    placeholder="Ex: 1799.00"
+                                    class="w-full px-3.5 py-2.5 rounded-xl border border-emerald-400 bg-emerald-50/30 text-sm font-bold text-slate-900 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none"
+                                >
+                                <span id="liveDiscountBadgePreview" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 px-2 py-0.5 rounded-md bg-emerald-600 text-white text-[11px] font-extrabold">
+                                    0% OFF
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Installment / Payment Info -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Condição de Pagamento <span class="text-slate-400 font-normal">(Opcional)</span></label>
+                            <input 
+                                type="text" 
+                                id="offerPaymentInfo" 
+                                placeholder="Ex: À vista no Pix ou 10x sem juros"
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 focus:outline-none"
+                            >
+                        </div>
+
+                        <!-- Highlight Badge / Selo -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Selo de Destaque <span class="text-slate-400 font-normal">(Opcional)</span></label>
+                            <select 
+                                id="offerBadge" 
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 focus:outline-none bg-white"
+                            >
+                                <option value="">Sem selo extra</option>
+                                <option value="🔥 Oferta Relâmpago">🔥 Oferta Relâmpago</option>
+                                <option value="📉 Menor Preço Histórico">📉 Menor Preço Histórico</option>
+                                <option value="⚡ Imperdível">⚡ Imperdível</option>
+                                <option value="📦 Frete Grátis">📦 Frete Grátis</option>
+                                <option value="🏆 Campeão de Vendas">🏆 Campeão de Vendas</option>
+                            </select>
+                        </div>
+
+                        <!-- Affiliate / Product Link -->
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Link da Promoção / Link de Afiliado *</label>
+                            <input 
+                                type="url" 
+                                id="offerLink" 
+                                required 
+                                placeholder="https://..."
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 focus:outline-none"
+                            >
+                        </div>
+
+                        <!-- Product Image: URL or Upload from Device -->
+                        <div class="sm:col-span-2 bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                <label class="block text-xs font-bold text-slate-700">
+                                    Imagem do Produto <span class="text-slate-400 font-normal">(Cole o link da foto ou envie do seu celular/PC)</span>
+                                </label>
+                                <label class="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition w-fit">
+                                    <i class="fa-solid fa-upload text-orange-400"></i>
+                                    <span>Enviar Foto do Aparelho</span>
+                                    <input type="file" id="offerImageFileInput" accept="image/*" onchange="handleOfferImageUpload(event)" class="hidden">
+                                </label>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <input 
+                                    type="text" 
+                                    id="offerImageUrl" 
+                                    oninput="updateOfferImagePreview(this.value)"
+                                    placeholder="Cole a URL da imagem (https://...) ou clique em Enviar Foto acima"
+                                    class="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm bg-white focus:border-orange-500 focus:outline-none"
+                                >
+                                <div id="offerImagePreviewBox" class="w-14 h-14 rounded-xl bg-white border border-slate-200 flex items-center justify-center overflow-hidden shrink-0">
+                                    <i class="fa-regular fa-image text-slate-300 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Optional Coupon Code inside Offer -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Cupom para usar na oferta <span class="text-slate-400 font-normal">(Opcional)</span></label>
+                            <input 
+                                type="text" 
+                                id="offerCouponCode" 
+                                placeholder="Ex: KUIDA20"
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm uppercase font-mono focus:border-orange-500 focus:outline-none"
+                            >
+                        </div>
+
+                        <!-- Featured Checkbox -->
+                        <div class="flex items-center pt-5">
+                            <label class="flex items-center gap-2.5 cursor-pointer select-none">
+                                <input type="checkbox" id="offerIsFeatured" class="w-5 h-5 rounded text-orange-600 focus:ring-orange-500">
+                                <span class="text-xs sm:text-sm font-bold text-slate-800">
+                                    ⭐ Destacar oferta na aba "Destaques"
+                                </span>
+                            </label>
+                        </div>
+
+                        <!-- Additional Notes -->
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Observações rápidas <span class="text-slate-400 font-normal">(Opcional)</span></label>
+                            <input 
+                                type="text" 
+                                id="offerNotes" 
+                                placeholder="Ex: Resgate o cupom na página do anúncio antes de finalizar"
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-orange-500 focus:outline-none"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-200 flex items-center justify-end gap-3">
+                        <button type="button" onclick="closeAdminModal()" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold">
+                            Fechar
+                        </button>
+                        <button type="submit" id="saveOfferSubmitBtn" class="px-6 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white text-xs sm:text-sm font-bold flex items-center gap-2 shadow-lg shadow-orange-600/25 transition">
+                            <i class="fa-solid fa-check"></i>
+                            <span>Publicar Oferta no Site</span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- ==========================================
+                     ADMIN TAB 2: ADD / EDIT COUPON FORM
+                =========================================== -->
+                <form id="adminCouponForm" onsubmit="saveCoupon(event)" class="hidden space-y-5">
+                    <input type="hidden" id="couponEditId" value="">
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Loja do Cupom *</label>
+                            <input 
+                                type="text" 
+                                id="couponStore" 
+                                list="storePresetsList"
+                                required 
+                                placeholder="Ex: Shopee, Mercado Livre, Amazon..."
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-emerald-500 focus:outline-none"
+                            >
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-emerald-700 mb-1">Código do Cupom *</label>
+                            <input 
+                                type="text" 
+                                id="couponCode" 
+                                required 
+                                placeholder="Ex: KUIDA50"
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-emerald-400 bg-emerald-50/40 text-sm font-mono font-bold uppercase focus:border-emerald-600 focus:outline-none"
+                            >
+                        </div>
+
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Descrição do Desconto *</label>
+                            <input 
+                                type="text" 
+                                id="couponDescription" 
+                                required 
+                                placeholder="Ex: R$ 30 OFF em compras acima de R$ 150 ou 15% OFF em Eletrônicos"
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-emerald-500 focus:outline-none"
+                            >
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Regras / Valor Mínimo <span class="text-slate-400 font-normal">(Opcional)</span></label>
+                            <input 
+                                type="text" 
+                                id="couponRules" 
+                                placeholder="Ex: Válido para produtos selecionados no App"
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-emerald-500 focus:outline-none"
+                            >
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Link para Usar o Cupom *</label>
+                            <input 
+                                type="url" 
+                                id="couponLink" 
+                                required 
+                                placeholder="https://..."
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-emerald-500 focus:outline-none"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-200 flex items-center justify-end gap-3">
+                        <button type="button" onclick="resetCouponForm()" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold">
+                            Limpar
+                        </button>
+                        <button type="submit" id="saveCouponSubmitBtn" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold flex items-center gap-2 shadow-lg shadow-emerald-600/25 transition">
+                            <i class="fa-solid fa-check"></i>
+                            <span>Publicar Cupom</span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- ==========================================
+                     ADMIN TAB 3: WHATSAPP / TELEGRAM POST GENERATOR
+                =========================================== -->
+                <div id="adminPostGenSection" class="hidden space-y-4">
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4">
+                        <h4 class="text-xs sm:text-sm font-bold text-emerald-950 flex items-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-emerald-600 text-base"></i>
+                            <span>Gerador Automático de Post para Grupos (WhatsApp & Telegram)</span>
+                        </h4>
+                        <p class="text-xs text-emerald-800 mt-1">
+                            Selecione qualquer oferta cadastrada abaixo para gerar o texto pronto com emojis, preço, cupom e link para colar nos seus grupos!
+                        </p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Escolher Oferta Cadastrada</label>
+                        <select 
+                            id="postGenOfferSelect" 
+                            onchange="generateSocialPostFromSelect()"
+                            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm bg-white focus:border-orange-500 focus:outline-none"
+                        >
+                            <option value="">-- Selecione uma oferta cadastrada --</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Texto Formatado Pronto para Copiar</label>
+                        <textarea 
+                            id="postGenTextarea" 
+                            rows="8" 
+                            class="w-full p-3.5 rounded-2xl border border-slate-300 text-xs sm:text-sm font-mono bg-slate-50 focus:bg-white focus:border-orange-500 focus:outline-none"
+                            placeholder="O texto formatado da promoção aparecerá aqui..."
+                        ></textarea>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-3">
+                        <button 
+                            type="button" 
+                            onclick="copyGeneratedPost()" 
+                            class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold flex items-center gap-2 transition"
+                        >
+                            <i class="fa-regular fa-copy"></i>
+                            <span>Copiar Texto do Post</span>
+                        </button>
+                        <button 
+                            type="button" 
+                            onclick="sendGeneratedPostToWhatsApp()" 
+                            class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-2 transition"
+                        >
+                            <i class="fa-brands fa-whatsapp"></i>
+                            <span>Enviar Direto no WhatsApp</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ==========================================
+                     ADMIN TAB 4: SITE SETTINGS & LINKS
+                =========================================== -->
+                <form id="adminSettingsForm" onsubmit="saveSiteSettings(event)" class="hidden space-y-5">
+                    <div class="bg-slate-100 rounded-2xl p-4 border border-slate-200">
+                        <h4 class="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-link text-orange-600"></i>
+                            <span>Configuração de Links, Grupos VIP e Identidade do Site</span>
+                        </h4>
+                        <p class="text-xs text-slate-600 mt-1">
+                            Todos os links configurados aqui ficam salvos no site para os seus visitantes acessarem.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-bold text-slate-700 mb-1">
+                                Link Oficial do Site para Compartilhar <span class="text-slate-400 font-normal">(Deixe em branco para usar o endereço atual automaticamente)</span>
+                            </label>
+                            <input 
+                                type="url" 
+                                id="settingCustomSiteUrl" 
+                                placeholder="Ex: https://kuidapromocoes.com.br"
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-orange-500 focus:outline-none"
+                            >
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-emerald-700 mb-1">
+                                <i class="fa-brands fa-whatsapp"></i> Link do Grupo VIP WhatsApp
+                            </label>
+                            <input 
+                                type="url" 
+                                id="settingWhatsappGroupUrl" 
+                                placeholder="https://chat.whatsapp.com/..."
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-emerald-500 focus:outline-none"
+                            >
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-sky-700 mb-1">
+                                <i class="fa-brands fa-telegram"></i> Link do Canal no Telegram
+                            </label>
+                            <input 
+                                type="url" 
+                                id="settingTelegramUrl" 
+                                placeholder="https://t.me/..."
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-sky-500 focus:outline-none"
+                            >
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-pink-700 mb-1">
+                                <i class="fa-brands fa-instagram"></i> Link do Perfil no Instagram
+                            </label>
+                            <input 
+                                type="url" 
+                                id="settingInstagramUrl" 
+                                placeholder="https://instagram.com/..."
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-pink-500 focus:outline-none"
+                            >
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">
+                                <i class="fa-solid fa-lock text-amber-600"></i> Senha/PIN do Painel Admin <span class="text-slate-400 font-normal">(Opcional)</span>
+                            </label>
+                            <input 
+                                type="password" 
+                                id="settingAdminPin" 
+                                placeholder="Deixe vazio para acesso livre ou crie uma senha"
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-orange-500 focus:outline-none"
+                            >
+                        </div>
+
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Texto da Barra de Aviso no Topo</label>
+                            <input 
+                                type="text" 
+                                id="settingAnnouncementText" 
+                                placeholder="🔥 Bem-vindo ao KUIDAPROMOÇÕES — O seu Bolso Agradece!"
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-orange-500 focus:outline-none"
+                            >
+                        </div>
+
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Subtítulo do Banner Principal</label>
+                            <input 
+                                type="text" 
+                                id="settingHeroSubtitle" 
+                                placeholder="Acompanhe em tempo real as melhores ofertas, quedas de preço e cupons de desconto das maiores lojas do Brasil."
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-orange-500 focus:outline-none"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-200 flex items-center justify-end gap-3">
+                        <button type="submit" class="px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-bold flex items-center gap-2 shadow-lg transition">
+                            <i class="fa-solid fa-floppy-disk text-orange-400"></i>
+                            <span>Salvar Configurações do Site</span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- ==========================================
+                     ADMIN TAB 5: BACKUP (EXPORT / IMPORT JSON)
+                =========================================== -->
+                <div id="adminBackupSection" class="hidden space-y-5">
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-3">
+                        <h4 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-download text-orange-600"></i>
+                            <span>Exportar Cópia de Segurança (Backup)</span>
+                        </h4>
+                        <p class="text-xs text-slate-600">
+                            Baixe um arquivo com todas as suas ofertas, cupons e configurações cadastradas no KUIDAPROMOÇÕES.
+                        </p>
+                        <button 
+                            type="button" 
+                            onclick="exportBackupJson()" 
+                            class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold inline-flex items-center gap-2 transition"
+                        >
+                            <i class="fa-solid fa-file-arrow-down text-orange-400"></i>
+                            <span>Baixar Backup (.JSON)</span>
+                        </button>
+                    </div>
+
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-3">
+                        <h4 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-upload text-emerald-600"></i>
+                            <span>Restaurar / Importar Backup</span>
+                        </h4>
+                        <p class="text-xs text-slate-600">
+                            Selecione um arquivo `.json` exportado anteriormente para restaurar ofertas e cupons.
+                        </p>
+                        <label class="cursor-pointer px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold inline-flex items-center gap-2 transition">
+                            <i class="fa-solid fa-file-arrow-up"></i>
+                            <span>Escolher Arquivo de Backup</span>
+                            <input type="file" accept=".json" onchange="importBackupJson(event)" class="hidden">
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         MODAL 2: SHARE SITE LINK MODAL ("LINK DO SITE DISPONÍVEL PARA COMPARTILHAR")
+    ========================================================================== -->
+    <div id="shareSiteModal" class="fixed inset-0 z-50 hidden bg-slate-900/75 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-slate-200 overflow-hidden">
+            <div class="bg-gradient-to-r from-orange-600 to-amber-500 text-white px-6 py-5 flex items-center justify-between">
+                <div>
+                    <span class="text-[10px] font-extrabold uppercase tracking-widest bg-black/20 px-2.5 py-0.5 rounded-full">Pronto para Divulgar</span>
+                    <h3 class="font-display font-black text-lg sm:text-xl mt-1">
+                        Compartilhar KUIDAPROMOÇÕES
+                    </h3>
+                    <p class="text-xs text-orange-100">O seu Bolso Agradece!</p>
+                </div>
+                <button onclick="closeShareSiteModal()" class="w-9 h-9 rounded-xl bg-black/15 hover:bg-black/25 text-white flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="p-6 space-y-5">
+                <!-- Shareable URL Input + Copy Button -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">
+                        Link Oficial do Site para Compartilhar:
+                    </label>
+                    <div class="flex items-center gap-2">
+                        <input 
+                            type="text" 
+                            id="shareableSiteUrlInput" 
+                            readonly 
+                            class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-100 border border-slate-200 text-xs font-mono text-slate-700 focus:outline-none"
+                        >
+                        <button 
+                            onclick="copySiteUrlToClipboard()" 
+                            class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold flex items-center gap-1.5 shrink-0 transition"
+                        >
+                            <i class="fa-regular fa-copy text-orange-400"></i>
+                            <span>Copiar Link</span>
+                        </button>
+                    </div>
+                    <p class="text-[11px] text-slate-500 mt-1.5">
+                        Você também pode personalizar o seu domínio próprio na aba <strong>Configurações</strong> do Painel Admin.
+                    </p>
+                </div>
+
+                <!-- Direct Social Share Buttons -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button 
+                        onclick="shareSiteVia('whatsapp')" 
+                        class="py-3 px-4 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-emerald-500/20 transition"
+                    >
+                        <i class="fa-brands fa-whatsapp text-base"></i>
+                        <span>Enviar no WhatsApp</span>
+                    </button>
+                    <button 
+                        onclick="shareSiteVia('telegram')" 
+                        class="py-3 px-4 rounded-2xl bg-sky-500 hover:bg-sky-600 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-sky-500/20 transition"
+                    >
+                        <i class="fa-brands fa-telegram text-base"></i>
+                        <span>Enviar no Telegram</span>
+                    </button>
+                </div>
+
+                <!-- Copy Ready Bio / Invite Text -->
+                <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-200">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <span class="text-[11px] font-bold text-slate-600 uppercase">Convite Pronto para Grupos & Redes</span>
+                        <button onclick="copyInviteMessage()" class="text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center gap-1">
+                            <i class="fa-regular fa-copy"></i> Copiar Convite
+                        </button>
+                    </div>
+                    <p id="siteInvitePreviewText" class="text-xs text-slate-700 font-mono leading-relaxed break-words">
+                        🔥 Conheça o *KUIDAPROMOÇÕES — O seu Bolso Agradece!* As melhores ofertas e cupons de desconto atualizados em tempo real. Acesse:
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         MODAL 3: PIN LOCK PROMPT & CONFIRM DELETE DIALOG
+    ========================================================================== -->
+    <div id="customDialogModal" class="fixed inset-0 z-50 hidden bg-slate-900/75 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl border border-slate-200 p-6 space-y-4">
+            <div class="flex items-center gap-3">
+                <div id="dialogIconBox" class="w-11 h-11 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-lg shrink-0">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <div>
+                    <h4 id="dialogTitle" class="font-display font-bold text-base text-slate-900">Confirmar Ação</h4>
+                    <p id="dialogMessage" class="text-xs text-slate-500 mt-0.5">Deseja prosseguir?</p>
+                </div>
+            </div>
+
+            <div id="dialogPinInputContainer" class="hidden">
+                <input 
+                    type="password" 
+                    id="dialogPinInput" 
+                    placeholder="Digite a senha do Administrador"
+                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-orange-500 focus:outline-none"
+                >
+            </div>
+
+            <div class="flex items-center justify-end gap-2 pt-2">
+                <button 
+                    onclick="closeCustomDialog()" 
+                    class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold"
+                >
+                    Cancelar
+                </button>
+                <button 
+                    id="dialogConfirmBtn" 
+                    class="px-5 py-2 rounded-xl bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold"
+                >
+                    Confirmar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         TOAST NOTIFICATION CONTAINER
+    ========================================================================== -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+    <!-- =========================================================================
+         FIREBASE & APPLICATION LOGIC
+    ========================================================================== -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, addDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // =========================================================================
+        // 1. STATE & CONFIGURATION (NO DEMO ITEMS - CLEAN PRODUCTION STRUCTURE)
+        // =========================================================================
+        const DEFAULT_CATEGORIES = [
+            'Todas',
+            'Eletrônicos',
+            'Smartphones',
+            'Casa & Cozinha',
+            'Eletrodomésticos',
+            'Informática',
+            'Games',
+            'Moda & Calçados',
+            'Beleza & Perfumaria',
+            'Supermercado'
+        ];
+
+        const appState = {
+            offers: [],
+            coupons: [],
+            settings: {
+                customSiteUrl: '',
+                whatsappGroupUrl: '',
+                telegramUrl: '',
+                instagramUrl: '',
+                adminPin: '',
+                announcementText: '🔥 Bem-vindo ao KUIDAPROMOÇÕES — O seu Bolso Agradece! Ofertas reais selecionadas todos os dias.',
+                heroSubtitle: 'Acompanhe em tempo real as melhores ofertas, quedas de preço e cupons de desconto das maiores lojas do Brasil.'
+            },
+            activeMainTab: 'offers', // 'offers' | 'featured' | 'coupons' | 'vip'
+            selectedCategory: 'Todas',
+            selectedStore: 'ALL',
+            sortBy: 'newest',
+            searchQuery: '',
+            isAdminUnlocked: false,
+            isCloudConnected: false
+        };
+
+        let db = null;
+        let auth = null;
+        let currentUser = null;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'kuidapromocoes-prod';
+
+        // =========================================================================
+        // 2. INITIALIZATION & FIREBASE CLOUD PERSISTENCE
+        // =========================================================================
+        async function initApp() {
+            document.getElementById('currentYearFooter').textContent = new Date().getFullYear();
+            renderCategoryPills();
+
+            try {
+                if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                    const firebaseConfig = JSON.parse(__firebase_config);
+                    const app = initializeApp(firebaseConfig);
+                    db = getFirestore(app);
+                    auth = getAuth(app);
+
+                    // RULE 3: Authenticate FIRST before any Firestore listener
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+
+                    onAuthStateChanged(auth, (user) => {
+                        currentUser = user;
+                        if (user) {
+                            setupRealtimeListeners();
+                        }
+                    });
+                } else {
+                    // Fallback if running outside environment without config
+                    finishInitialLoading();
+                }
+            } catch (error) {
+                console.error("Erro ao iniciar conexão em nuvem:", error);
+                finishInitialLoading();
+            }
+        }
+
+        function setupRealtimeListeners() {
+            if (!currentUser || !db) return;
+
+            // RULE 1: Strict Public Paths so visitors and admin see real-time updates
+            const offersColRef = collection(db, 'artifacts', appId, 'public', 'data', 'kuidapromocoes_offers');
+            const couponsColRef = collection(db, 'artifacts', appId, 'public', 'data', 'kuidapromocoes_coupons');
+            const settingsColRef = collection(db, 'artifacts', appId, 'public', 'data', 'kuidapromocoes_settings');
+
+            // 1. Listen to Real Offers (RULE 2: simple collection query, sort in JS)
+            onSnapshot(offersColRef, (snapshot) => {
+                const loadedOffers = [];
+                snapshot.forEach((docSnap) => {
+                    loadedOffers.push({ id: docSnap.id, ...docSnap.data() });
+                });
+                appState.offers = loadedOffers;
+                appState.isCloudConnected = true;
+                finishInitialLoading();
+                updateStoreDropdownOptions();
+                renderCategoryPills();
+                applyFiltersAndRender();
+                populatePostGenSelect();
+            }, (error) => {
+                console.error("Erro ao sincronizar ofertas:", error);
+                finishInitialLoading();
+            });
+
+            // 2. Listen to Real Coupons
+            onSnapshot(couponsColRef, (snapshot) => {
+                const loadedCoupons = [];
+                snapshot.forEach((docSnap) => {
+                    loadedCoupons.push({ id: docSnap.id, ...docSnap.data() });
+                });
+                appState.coupons = loadedCoupons;
+                renderCoupons();
+                updateCountsBadges();
+            }, (error) => {
+                console.error("Erro ao sincronizar cupons:", error);
+            });
+
+            // 3. Listen to Site Settings
+            onSnapshot(settingsColRef, (snapshot) => {
+                snapshot.forEach((docSnap) => {
+                    if (docSnap.id === 'main_config') {
+                        appState.settings = { ...appState.settings, ...docSnap.data() };
+                        applySettingsToUI();
+                    }
+                });
+            }, (error) => {
+                console.error("Erro ao sincronizar configurações:", error);
+            });
+        }
+
+        function finishInitialLoading() {
+            const loader = document.getElementById('loadingOffersState');
+            if (loader) loader.classList.add('hidden');
+            applyFiltersAndRender();
+            renderCoupons();
+            applySettingsToUI();
+        }
+
+        // =========================================================================
+        // 3. UI RENDERING: CATEGORIES, OFFERS, COUPONS & SETTINGS
+        // =========================================================================
+        function applySettingsToUI() {
+            const s = appState.settings;
+            document.getElementById('announcementTextDisplay').textContent = s.announcementText || '🔥 Bem-vindo ao KUIDAPROMOÇÕES — O seu Bolso Agradece!';
+            document.getElementById('heroSubtitleDisplay').textContent = s.heroSubtitle || 'Acompanhe em tempo real as melhores ofertas, quedas de preço e cupons de desconto das maiores lojas do Brasil.';
+
+            // Populate form inputs in Admin Settings
+            document.getElementById('settingCustomSiteUrl').value = s.customSiteUrl || '';
+            document.getElementById('settingWhatsappGroupUrl').value = s.whatsappGroupUrl || '';
+            document.getElementById('settingTelegramUrl').value = s.telegramUrl || '';
+            document.getElementById('settingInstagramUrl').value = s.instagramUrl || '';
+            document.getElementById('settingAdminPin').value = s.adminPin || '';
+            document.getElementById('settingAnnouncementText').value = s.announcementText || '';
+            document.getElementById('settingHeroSubtitle').value = s.heroSubtitle || '';
+        }
+
+        function renderCategoryPills() {
+            const container = document.getElementById('categoryPillsContainer');
+            // Combine default categories with any custom categories added in real offers
+            const dynamicCats = new Set(DEFAULT_CATEGORIES);
+            appState.offers.forEach(o => {
+                if (o.category && o.category.trim()) dynamicCats.add(o.category.trim());
+            });
+
+            container.innerHTML = Array.from(dynamicCats).map(cat => {
+                const isSelected = appState.selectedCategory === cat;
+                return `
+                    <button 
+                        onclick="selectCategory('${escapeHtml(cat)}')"
+                        class="px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition flex items-center gap-1.5 ${
+                            isSelected 
+                            ? 'bg-slate-900 text-white shadow-sm' 
+                            : 'bg-slate-100 hover:bg-slate-200/80 text-slate-700'
+                        }"
+                    >
+                        <span>${escapeHtml(cat)}</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function updateStoreDropdownOptions() {
+            const select = document.getElementById('storeFilterSelect');
+            const currentVal = select.value;
+            const stores = new Set();
+            appState.offers.forEach(o => {
+                if (o.store && o.store.trim()) stores.add(o.store.trim());
+            });
+
+            let html = `<option value="ALL">Todas as Lojas</option>`;
+            Array.from(stores).sort().forEach(st => {
+                html += `<option value="${escapeHtml(st)}">${escapeHtml(st)}</option>`;
+            });
+            select.innerHTML = html;
+            if (Array.from(stores).includes(currentVal)) {
+                select.value = currentVal;
+            } else {
+                select.value = 'ALL';
+            }
+        }
+
+        function updateCountsBadges() {
+            const totalOffers = appState.offers.length;
+            const featuredOffers = appState.offers.filter(o => o.isFeatured).length;
+            const totalCoupons = appState.coupons.length;
+
+            document.getElementById('badgeCountOffers').textContent = totalOffers;
+            document.getElementById('badgeCountFeatured').textContent = featuredOffers;
+            document.getElementById('badgeCountCoupons').textContent = totalCoupons;
+        }
+
+        function applyFiltersAndRender() {
+            updateCountsBadges();
+
+            const storeVal = document.getElementById('storeFilterSelect').value;
+            const sortVal = document.getElementById('sortFilterSelect').value;
+            appState.selectedStore = storeVal;
+            appState.sortBy = sortVal;
+
+            const hasActiveFilter = appState.selectedCategory !== 'Todas' || storeVal !== 'ALL' || appState.searchQuery.trim() !== '';
+            const resetBtn = document.getElementById('resetFiltersBtn');
+            if (hasActiveFilter) {
+                resetBtn.classList.remove('hidden');
+                resetBtn.classList.add('inline-flex');
+            } else {
+                resetBtn.classList.add('hidden');
+                resetBtn.classList.remove('inline-flex');
+            }
+
+            // Filter in JS memory
+            let list = [...appState.offers];
+
+            if (appState.activeMainTab === 'featured') {
+                list = list.filter(o => Boolean(o.isFeatured));
+            }
+
+            if (appState.selectedCategory !== 'Todas') {
+                list = list.filter(o => (o.category || '').toLowerCase() === appState.selectedCategory.toLowerCase());
+            }
+
+            if (storeVal !== 'ALL') {
+                list = list.filter(o => (o.store || '').toLowerCase() === storeVal.toLowerCase());
+            }
+
+            if (appState.searchQuery.trim() !== '') {
+                const q = appState.searchQuery.toLowerCase().trim();
+                list = list.filter(o => 
+                    (o.title || '').toLowerCase().includes(q) ||
+                    (o.store || '').toLowerCase().includes(q) ||
+                    (o.category || '').toLowerCase().includes(q) ||
+                    (o.couponCode || '').toLowerCase().includes(q) ||
+                    (o.notes || '').toLowerCase().includes(q)
+                );
+            }
+
+            // Sort in JS memory
+            list.sort((a, b) => {
+                if (sortVal === 'price_asc') {
+                    return (Number(a.promoPrice) || 0) - (Number(b.promoPrice) || 0);
+                }
+                if (sortVal === 'discount_desc') {
+                    return calculateDiscountPercent(b.oldPrice, b.promoPrice) - calculateDiscountPercent(a.oldPrice, a.promoPrice);
+                }
+                if (sortVal === 'savings_desc') {
+                    const savA = Math.max(0, (Number(a.oldPrice) || 0) - (Number(a.promoPrice) || 0));
+                    const savB = Math.max(0, (Number(b.oldPrice) || 0) - (Number(b.promoPrice) || 0));
+                    return savB - savA;
+                }
+                // Default: newest
+                return (b.createdAt || 0) - (a.createdAt || 0);
+            });
+
+            renderOffersGrid(list);
+        }
+
+        function renderOffersGrid(offersList) {
+            const grid = document.getElementById('offersGridContainer');
+            const emptyState = document.getElementById('emptyOffersState');
+            const counter = document.getElementById('offersResultCounter');
+
+            counter.textContent = `${offersList.length} ${offersList.length === 1 ? 'oferta encontrada' : 'ofertas encontradas'}`;
+
+            if (offersList.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+
+                const emptyTitle = document.getElementById('emptyStateTitle');
+                const emptyDesc = document.getElementById('emptyStateDescription');
+
+                if (appState.offers.length === 0) {
+                    emptyTitle.textContent = 'Nenhuma oferta cadastrada no momento';
+                    emptyDesc.innerHTML = 'O site <strong>KUIDAPROMOÇÕES</strong> está pronto e sem produtos fictícios de demonstração. Adicione agora suas ofertas reais no Painel Admin ou compartilhe o link do site!';
+                } else {
+                    emptyTitle.textContent = 'Nenhuma oferta corresponde ao filtro selecionado';
+                    emptyDesc.textContent = 'Tente limpar a busca ou escolher outra categoria para visualizar as promoções cadastradas.';
+                }
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+
+            grid.innerHTML = offersList.map(offer => {
+                const oldP = Number(offer.oldPrice) || 0;
+                const promoP = Number(offer.promoPrice) || 0;
+                const discountPct = calculateDiscountPercent(oldP, promoP);
+                const savingsVal = oldP > promoP ? (oldP - promoP) : 0;
+                const storeBadgeColor = getStoreBadgeStyle(offer.store);
+                const timeAgoStr = formatRelativeTime(offer.createdAt);
+
+                return `
+                    <article class="bg-white rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-orange-300 transition-all duration-200 flex flex-col overflow-hidden group">
+                        
+                        <!-- Card Top Bar: Store & Discount Badge -->
+                        <div class="p-3.5 pb-0 flex items-center justify-between gap-2">
+                            <span class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold uppercase tracking-wide ${storeBadgeColor}">
+                                ${escapeHtml(offer.store || 'Loja Oficial')}
+                            </span>
+                            <div class="flex items-center gap-1.5">
+                                ${discountPct > 0 ? `
+                                    <span class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white text-xs font-black shadow-sm">
+                                        -${discountPct}% OFF
+                                    </span>
+                                ` : ''}
+                            </div>
+                        </div>
+
+                        <!-- Product Image Area -->
+                        <div class="relative p-4 flex items-center justify-center h-48 bg-white">
+                            ${offer.imageUrl ? `
+                                <img 
+                                    src="${escapeHtml(offer.imageUrl)}" 
+                                    alt="${escapeHtml(offer.title)}" 
+                                    class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300"
+                                    onerror="this.onerror=null; this.src='https://placehold.co/400x400/fff7ed/ea580c?text=KUIDAPROMOCOES';"
+                                >
+                            ` : `
+                                <div class="w-full h-full rounded-2xl bg-orange-50/70 border border-orange-100 flex flex-col items-center justify-center text-orange-500 p-4 text-center">
+                                    <i class="fa-solid fa-bag-shopping text-4xl mb-2"></i>
+                                    <span class="text-[11px] font-bold uppercase tracking-wider text-orange-700">${escapeHtml(offer.store || 'Oferta Verificada')}</span>
+                                </div>
+                            `}
+
+                            ${offer.badge ? `
+                                <span class="absolute bottom-2 left-3 px-2.5 py-1 rounded-lg bg-slate-900/90 backdrop-blur-sm text-white text-[11px] font-bold shadow">
+                                    ${escapeHtml(offer.badge)}
+                                </span>
+                            ` : ''}
+                        </div>
+
+                        <!-- Card Content -->
+                        <div class="p-4 pt-2 flex-1 flex flex-col justify-between space-y-3 border-t border-slate-100">
+                            <div>
+                                <div class="flex items-center justify-between text-[11px] text-slate-400 font-semibold mb-1">
+                                    <span>${escapeHtml(offer.category || 'Ofertas')}</span>
+                                    <span><i class="fa-regular fa-clock mr-1"></i>${timeAgoStr}</span>
+                                </div>
+                                <h3 class="font-display font-bold text-sm sm:text-base text-slate-900 line-clamp-2 group-hover:text-orange-600 transition-colors">
+                                    ${escapeHtml(offer.title)}
+                                </h3>
+                                ${offer.notes ? `
+                                    <p class="text-xs text-slate-500 mt-1 line-clamp-2 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200/60">
+                                        <i class="fa-solid fa-circle-info text-orange-500 mr-1"></i>${escapeHtml(offer.notes)}
+                                    </p>
+                                ` : ''}
+                            </div>
+
+                            <div class="space-y-3 pt-1">
+                                <!-- Pricing Box -->
+                                <div>
+                                    ${oldP > promoP ? `
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-xs text-slate-400 line-through font-medium">De ${formatCurrencyBRL(oldP)}</span>
+                                            <span class="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">
+                                                Economize ${formatCurrencyBRL(savingsVal)}
+                                            </span>
+                                        </div>
+                                    ` : ''}
+                                    <div class="flex items-baseline gap-1.5 mt-0.5">
+                                        <span class="text-xs font-bold text-slate-500">Por</span>
+                                        <span class="font-display font-black text-2xl text-emerald-600 tracking-tight">
+                                            ${formatCurrencyBRL(promoP)}
+                                        </span>
+                                    </div>
+                                    ${offer.paymentInfo ? `
+                                        <p class="text-[11px] font-semibold text-slate-500 mt-0.5">
+                                            ${escapeHtml(offer.paymentInfo)}
+                                        </p>
+                                    ` : ''}
+                                </div>
+
+                                <!-- Coupon Box inside Offer (if present) -->
+                                ${offer.couponCode ? `
+                                    <div class="flex items-center justify-between bg-amber-50 border border-dashed border-amber-400 rounded-xl px-3 py-2">
+                                        <div class="flex items-center gap-1.5 overflow-hidden">
+                                            <i class="fa-solid fa-ticket text-amber-600 text-xs"></i>
+                                            <span class="text-xs font-mono font-black text-amber-950 truncate">${escapeHtml(offer.couponCode)}</span>
+                                        </div>
+                                        <button 
+                                            onclick="copyTextToClipboard('${escapeHtml(offer.couponCode)}', 'Cupom ${escapeHtml(offer.couponCode)} copiado!')"
+                                            class="px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-600 text-white text-[11px] font-bold shrink-0 transition"
+                                        >
+                                            Copiar Cupom
+                                        </button>
+                                    </div>
+                                ` : ''}
+
+                                <!-- Primary CTA & Share Row -->
+                                <div class="flex items-center gap-2 pt-1">
+                                    <a 
+                                        href="${escapeHtml(offer.link)}" 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        class="flex-1 py-3 px-4 rounded-2xl bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md shadow-orange-500/20 transition"
+                                    >
+                                        <span>Pegar Promoção</span>
+                                        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                                    </a>
+                                    <button 
+                                        onclick="shareSingleOffer('${offer.id}')" 
+                                        title="Compartilhar oferta no WhatsApp"
+                                        class="p-3 rounded-2xl bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-emerald-600 border border-slate-200 transition"
+                                    >
+                                        <i class="fa-brands fa-whatsapp text-base"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Admin Quick Actions Bar -->
+                                <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+                                    <button 
+                                        onclick="editOffer('${offer.id}')" 
+                                        class="text-slate-500 hover:text-orange-600 font-semibold flex items-center gap-1 py-1"
+                                    >
+                                        <i class="fa-solid fa-pen-to-square"></i> Editar
+                                    </button>
+                                    <button 
+                                        onclick="openPostGenForOffer('${offer.id}')" 
+                                        class="text-slate-500 hover:text-emerald-600 font-semibold flex items-center gap-1 py-1"
+                                    >
+                                        <i class="fa-brands fa-whatsapp"></i> Gerar Post
+                                    </button>
+                                    <button 
+                                        onclick="confirmDeleteOffer('${offer.id}')" 
+                                        class="text-slate-400 hover:text-red-600 font-semibold flex items-center gap-1 py-1"
+                                    >
+                                        <i class="fa-solid fa-trash-can"></i> Excluir
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        function renderCoupons() {
+            const grid = document.getElementById('couponsGridContainer');
+            const emptyState = document.getElementById('emptyCouponsState');
+
+            if (appState.coupons.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+
+            const sortedCoupons = [...appState.coupons].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+            grid.innerHTML = sortedCoupons.map(c => {
+                const storeBadgeColor = getStoreBadgeStyle(c.store);
+                return `
+                    <div class="coupon-card bg-white rounded-3xl border border-slate-200 p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold uppercase ${storeBadgeColor}">
+                                    ${escapeHtml(c.store)}
+                                </span>
+                                <span class="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">
+                                    <i class="fa-solid fa-check-circle mr-1"></i>Cupom Ativo
+                                </span>
+                            </div>
+                            <h3 class="font-display font-extrabold text-base text-slate-900">
+                                ${escapeHtml(c.description)}
+                            </h3>
+                            ${c.rules ? `
+                                <p class="text-xs text-slate-500 mt-1">
+                                    ${escapeHtml(c.rules)}
+                                </p>
+                            ` : ''}
+                        </div>
+
+                        <div class="space-y-3 pt-3 border-t border-dashed border-slate-200">
+                            <div class="flex items-center justify-between bg-slate-100 rounded-2xl p-2 pl-4 border border-slate-200">
+                                <span class="font-mono font-black text-sm sm:text-base text-slate-900 tracking-wider">
+                                    ${escapeHtml(c.code)}
+                                </span>
+                                <button 
+                                    onclick="copyTextToClipboard('${escapeHtml(c.code)}', 'Cupom ${escapeHtml(c.code)} copiado!')"
+                                    class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition"
+                                >
+                                    <i class="fa-regular fa-copy"></i>
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <a 
+                                    href="${escapeHtml(c.link)}" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    class="text-xs font-bold text-orange-600 hover:text-orange-700 inline-flex items-center gap-1.5"
+                                >
+                                    <span>Ir para ${escapeHtml(c.store)}</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                                </a>
+
+                                <button 
+                                    onclick="confirmDeleteCoupon('${c.id}')" 
+                                    class="text-xs font-semibold text-slate-400 hover:text-red-600"
+                                >
+                                    <i class="fa-solid fa-trash-can mr-1"></i>Excluir
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // =========================================================================
+        // 4. CRUD ACTIONS: SAVE / EDIT / DELETE OFFERS, COUPONS & SETTINGS
+        // =========================================================================
+        window.saveOffer = async function(event) {
+            event.preventDefault();
+            const submitBtn = document.getElementById('saveOfferSubmitBtn');
+            submitBtn.disabled = true;
+
+            const editId = document.getElementById('offerEditId').value;
+            const offerData = {
+                title: document.getElementById('offerTitle').value.trim(),
+                store: document.getElementById('offerStore').value.trim(),
+                category: document.getElementById('offerCategory').value.trim() || 'Ofertas',
+                oldPrice: parseFloat(document.getElementById('offerOldPrice').value) || 0,
+                promoPrice: parseFloat(document.getElementById('offerPromoPrice').value) || 0,
+                paymentInfo: document.getElementById('offerPaymentInfo').value.trim(),
+                badge: document.getElementById('offerBadge').value,
+                link: document.getElementById('offerLink').value.trim(),
+                imageUrl: document.getElementById('offerImageUrl').value.trim(),
+                couponCode: document.getElementById('offerCouponCode').value.trim().toUpperCase(),
+                isFeatured: document.getElementById('offerIsFeatured').checked,
+                notes: document.getElementById('offerNotes').value.trim(),
+                updatedAt: Date.now()
+            };
+
+            try {
+                if (db && currentUser) {
+                    const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'kuidapromocoes_offers');
+                    if (editId) {
+                        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'kuidapromocoes_offers', editId);
+                        await updateDoc(docRef, offerData);
+                        showToast('Oferta atualizada com sucesso!', 'success');
+                    } else {
+                        offerData.createdAt = Date.now();
+                        await addDoc(colRef, offerData);
+                        showToast('Oferta publicada no site em tempo real!', 'success');
+                    }
+                } else {
+                    // Fallback in-memory if offline
+                    if (editId) {
+                        const idx = appState.offers.findIndex(o => o.id === editId);
+                        if (idx > -1) appState.offers[idx] = { ...appState.offers[idx], ...offerData };
+                    } else {
+                        offerData.id = 'local_' + Date.now();
+                        offerData.createdAt = Date.now();
+                        appState.offers.unshift(offerData);
+                    }
+                    applyFiltersAndRender();
+                    showToast('Oferta adicionada!', 'success');
+                }
+                resetOfferForm();
+                closeAdminModal();
+            } catch (err) {
+                console.error("Erro ao salvar oferta:", err);
+                showToast('Não foi possível salvar a oferta. Verifique os dados.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+            }
+        };
+
+        window.editOffer = function(offerId) {
+            const offer = appState.offers.find(o => o.id === offerId);
+            if (!offer) return;
+
+            checkAdminPermission(() => {
+                document.getElementById('offerEditId').value = offer.id;
+                document.getElementById('offerTitle').value = offer.title || '';
+                document.getElementById('offerStore').value = offer.store || '';
+                document.getElementById('offerCategory').value = offer.category || '';
+                document.getElementById('offerOldPrice').value = offer.oldPrice || '';
+                document.getElementById('offerPromoPrice').value = offer.promoPrice || '';
+                document.getElementById('offerPaymentInfo').value = offer.paymentInfo || '';
+                document.getElementById('offerBadge').value = offer.badge || '';
+                document.getElementById('offerLink').value = offer.link || '';
+                document.getElementById('offerImageUrl').value = offer.imageUrl || '';
+                document.getElementById('offerCouponCode').value = offer.couponCode || '';
+                document.getElementById('offerIsFeatured').checked = Boolean(offer.isFeatured);
+                document.getElementById('offerNotes').value = offer.notes || '';
+
+                updateOfferImagePreview(offer.imageUrl || '');
+                updateLiveDiscountPreview();
+
+                document.getElementById('adminOfferTabLabel').textContent = 'Editando Oferta';
+                document.getElementById('offerFormBannerText').textContent = 'Editando oferta selecionada. Salve para atualizar na vitrine.';
+                document.getElementById('cancelOfferEditBtn').classList.remove('hidden');
+
+                document.getElementById('adminModal').classList.remove('hidden');
+                switchAdminTab('offer');
+            });
+        };
+
+        window.resetOfferForm = function() {
+            document.getElementById('adminOfferForm').reset();
+            document.getElementById('offerEditId').value = '';
+            document.getElementById('adminOfferTabLabel').textContent = 'Nova Oferta';
+            document.getElementById('offerFormBannerText').textContent = 'Preencha os dados da promoção para publicar imediatamente na vitrine.';
+            document.getElementById('cancelOfferEditBtn').classList.add('hidden');
+            document.getElementById('liveDiscountBadgePreview').classList.add('hidden');
+            updateOfferImagePreview('');
+        };
+
+        window.confirmDeleteOffer = function(offerId) {
+            checkAdminPermission(() => {
+                openCustomDialog({
+                    title: 'Excluir Oferta',
+                    message: 'Tem certeza que deseja remover esta promoção da vitrine do site?',
+                    confirmText: 'Sim, Excluir',
+                    onConfirm: async () => {
+                        try {
+                            if (db && currentUser) {
+                                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'kuidapromocoes_offers', offerId));
+                            } else {
+                                appState.offers = appState.offers.filter(o => o.id !== offerId);
+                                applyFiltersAndRender();
+                            }
+                            showToast('Oferta removida com sucesso.', 'info');
+                        } catch (e) {
+                            console.error(e);
+                            showToast('Erro ao remover oferta.', 'error');
+                        }
+                    }
+                });
+            });
+        };
+
+        window.saveCoupon = async function(event) {
+            event.preventDefault();
+            const couponData = {
+                store: document.getElementById('couponStore').value.trim(),
+                code: document.getElementById('couponCode').value.trim().toUpperCase(),
+                description: document.getElementById('couponDescription').value.trim(),
+                rules: document.getElementById('couponRules').value.trim(),
+                link: document.getElementById('couponLink').value.trim(),
+                createdAt: Date.now()
+            };
+
+            try {
+                if (db && currentUser) {
+                    const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'kuidapromocoes_coupons');
+                    await addDoc(colRef, couponData);
+                } else {
+                    couponData.id = 'coup_' + Date.now();
+                    appState.coupons.unshift(couponData);
+                    renderCoupons();
+                    updateCountsBadges();
+                }
+                resetCouponForm();
+                closeAdminModal();
+                switchMainTab('coupons');
+                showToast('Cupom publicado com sucesso!', 'success');
+            } catch (e) {
+                console.error(e);
+                showToast('Erro ao salvar cupom.', 'error');
+            }
+        };
+
+        window.resetCouponForm = function() {
+            document.getElementById('adminCouponForm').reset();
+        };
+
+        window.confirmDeleteCoupon = function(couponId) {
+            checkAdminPermission(() => {
+                openCustomDialog({
+                    title: 'Excluir Cupom',
+                    message: 'Deseja remover este cupom de desconto do site?',
+                    confirmText: 'Excluir Cupom',
+                    onConfirm: async () => {
+                        try {
+                            if (db && currentUser) {
+                                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'kuidapromocoes_coupons', couponId));
+                            } else {
+                                appState.coupons = appState.coupons.filter(c => c.id !== couponId);
+                                renderCoupons();
+                                updateCountsBadges();
+                            }
+                            showToast('Cupom removido.', 'info');
+                        } catch (e) {
+                            console.error(e);
+                        }
+                    }
+                });
+            });
+        };
+
+        window.saveSiteSettings = async function(event) {
+            event.preventDefault();
+            const newSettings = {
+                customSiteUrl: document.getElementById('settingCustomSiteUrl').value.trim(),
+                whatsappGroupUrl: document.getElementById('settingWhatsappGroupUrl').value.trim(),
+                telegramUrl: document.getElementById('settingTelegramUrl').value.trim(),
+                instagramUrl: document.getElementById('settingInstagramUrl').value.trim(),
+                adminPin: document.getElementById('settingAdminPin').value.trim(),
+                announcementText: document.getElementById('settingAnnouncementText').value.trim(),
+                heroSubtitle: document.getElementById('settingHeroSubtitle').value.trim(),
+                updatedAt: Date.now()
+            };
+
+            try {
+                appState.settings = { ...appState.settings, ...newSettings };
+                applySettingsToUI();
+
+                if (db && currentUser) {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'kuidapromocoes_settings', 'main_config');
+                    await setDoc(docRef, newSettings, { merge: true });
+                }
+                showToast('Configurações e links salvos com sucesso!', 'success');
+                closeAdminModal();
+            } catch (e) {
+                console.error("Erro ao salvar configurações:", e);
+                showToast('Erro ao salvar configurações.', 'error');
+            }
+        };
+
+        // =========================================================================
+        // 5. IMAGE UPLOAD WITH AUTOMATIC CLIENT-SIDE COMPRESSION
+        // =========================================================================
+        window.handleOfferImageUpload = function(event) {
+            const file = event.target.files?.[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_SIZE = 550;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_SIZE) {
+                            height *= MAX_SIZE / width;
+                            width = MAX_SIZE;
+                        }
+                    } else {
+                        if (height > MAX_SIZE) {
+                            width *= MAX_SIZE / height;
+                            height = MAX_SIZE;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.fillRect(0, 0, width, height);
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+                    document.getElementById('offerImageUrl').value = compressedDataUrl;
+                    updateOfferImagePreview(compressedDataUrl);
+                    showToast('Foto carregada e otimizada com sucesso!', 'success');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        };
+
+        window.updateOfferImagePreview = function(url) {
+            const box = document.getElementById('offerImagePreviewBox');
+            if (url && url.trim()) {
+                box.innerHTML = `<img src="${escapeHtml(url.trim())}" class="w-full h-full object-contain" onerror="this.onerror=null;this.parentElement.innerHTML='<i class=\\'fa-solid fa-triangle-exclamation text-amber-500\\'></i>'">`;
+            } else {
+                box.innerHTML = `<i class="fa-regular fa-image text-slate-300 text-xl"></i>`;
+            }
+        };
+
+        window.updateLiveDiscountPreview = function() {
+            const oldP = parseFloat(document.getElementById('offerOldPrice').value) || 0;
+            const promoP = parseFloat(document.getElementById('offerPromoPrice').value) || 0;
+            const badge = document.getElementById('liveDiscountBadgePreview');
+            const pct = calculateDiscountPercent(oldP, promoP);
+            if (pct > 0) {
+                badge.textContent = `-${pct}% OFF`;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        };
+
+        // =========================================================================
+        // 6. SHAREABLE SITE LINK, WHATSAPP POST GENERATOR & VIP LINKS
+        // =========================================================================
+        function getEffectiveSiteUrl() {
+            if (appState.settings.customSiteUrl && appState.settings.customSiteUrl.trim()) {
+                return appState.settings.customSiteUrl.trim();
+            }
+            return window.location.href;
+        }
+
+        window.openShareSiteModal = function() {
+            const url = getEffectiveSiteUrl();
+            document.getElementById('shareableSiteUrlInput').value = url;
+            document.getElementById('siteInvitePreviewText').textContent = 
+                `🔥 Conheça o *KUIDAPROMOÇÕES — O seu Bolso Agradece!* As melhores ofertas, promoções e cupons de desconto em tempo real. Acesse agora: ${url}`;
+            document.getElementById('shareSiteModal').classList.remove('hidden');
+        };
+
+        window.closeShareSiteModal = function() {
+            document.getElementById('shareSiteModal').classList.add('hidden');
+        };
+
+        window.copySiteUrlToClipboard = function() {
+            const url = getEffectiveSiteUrl();
+            copyTextToClipboard(url, 'Link do site copiado para a área de transferência!');
+        };
+
+        window.copyInviteMessage = function() {
+            const msg = document.getElementById('siteInvitePreviewText').textContent;
+            copyTextToClipboard(msg, 'Convite copiado! Agora é só colar no WhatsApp ou redes sociais.');
+        };
+
+        window.shareSiteVia = function(platform) {
+            const url = getEffectiveSiteUrl();
+            const text = `🔥 *KUIDAPROMOÇÕES — O seu Bolso Agradece!*\nConfira as melhores ofertas e cupons de desconto atualizados em tempo real:\n${url}`;
+            if (platform === 'whatsapp') {
+                window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+            } else if (platform === 'telegram') {
+                window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent('🔥 KUIDAPROMOÇÕES — O seu Bolso Agradece! As melhores ofertas e cupons:')}`, '_blank');
+            }
+        };
+
+        window.formatOfferSocialPost = function(offer) {
+            const oldP = Number(offer.oldPrice) || 0;
+            const promoP = Number(offer.promoPrice) || 0;
+            const pct = calculateDiscountPercent(oldP, promoP);
+
+            let lines = [];
+            lines.push(`🔥 *${offer.badge ? offer.badge.toUpperCase() : 'OFERTA KUIDAPROMOÇÕES'}*`);
+            lines.push(`🏪 Loja: *${offer.store || 'Oficial'}*`);
+            lines.push(``);
+            lines.push(`🛍️ *${offer.title}*`);
+            lines.push(``);
+            if (oldP > promoP) {
+                lines.push(`❌ De: ~${formatCurrencyBRL(oldP)}~`);
+            }
+            lines.push(`✅ *Por: ${formatCurrencyBRL(promoP)}* ${pct > 0 ? `(-${pct}% OFF)` : ''}`);
+            if (offer.paymentInfo) {
+                lines.push(`💳 _${offer.paymentInfo}_`);
+            }
+            if (offer.couponCode) {
+                lines.push(`🎟️ Use o Cupom: *${offer.couponCode}*`);
+            }
+            if (offer.notes) {
+                lines.push(`💡 Obs: ${offer.notes}`);
+            }
+            lines.push(``);
+            lines.push(`🛒 *Compre aqui:* ${offer.link}`);
+            lines.push(``);
+            lines.push(`💰 _KUIDAPROMOÇÕES — O seu Bolso Agradece!_`);
+            return lines.join('\n');
+        };
+
+        window.shareSingleOffer = function(offerId) {
+            const offer = appState.offers.find(o => o.id === offerId);
+            if (!offer) return;
+            const postText = formatOfferSocialPost(offer);
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(postText)}`, '_blank');
+        };
+
+        function populatePostGenSelect() {
+            const select = document.getElementById('postGenOfferSelect');
+            if (!select) return;
+            let html = `<option value="">-- Selecione uma oferta cadastrada (${appState.offers.length}) --</option>`;
+            appState.offers.forEach(o => {
+                html += `<option value="${o.id}">${escapeHtml(o.store)} - ${escapeHtml(o.title)} (${formatCurrencyBRL(o.promoPrice)})</option>`;
+            });
+            select.innerHTML = html;
+        }
+
+        window.generateSocialPostFromSelect = function() {
+            const offerId = document.getElementById('postGenOfferSelect').value;
+            const offer = appState.offers.find(o => o.id === offerId);
+            if (!offer) {
+                document.getElementById('postGenTextarea').value = '';
+                return;
+            }
+            document.getElementById('postGenTextarea').value = formatOfferSocialPost(offer);
+        };
+
+        window.openPostGenForOffer = function(offerId) {
+            checkAdminPermission(() => {
+                populatePostGenSelect();
+                document.getElementById('postGenOfferSelect').value = offerId;
+                generateSocialPostFromSelect();
+                document.getElementById('adminModal').classList.remove('hidden');
+                switchAdminTab('postgen');
+            });
+        };
+
+        window.copyGeneratedPost = function() {
+            const text = document.getElementById('postGenTextarea').value;
+            if (!text.trim()) {
+                showToast('Selecione uma oferta primeiro para gerar o post.', 'info');
+                return;
+            }
+            copyTextToClipboard(text, 'Post copiado! Pronto para colar no WhatsApp ou Telegram.');
+        };
+
+        window.sendGeneratedPostToWhatsApp = function() {
+            const text = document.getElementById('postGenTextarea').value;
+            if (!text.trim()) {
+                showToast('Selecione uma oferta primeiro para gerar o post.', 'info');
+                return;
+            }
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+        };
+
+        window.openVipGroupLink = function(channel) {
+            const s = appState.settings;
+            let targetUrl = '';
+            if (channel === 'whatsapp') targetUrl = s.whatsappGroupUrl;
+            if (channel === 'telegram') targetUrl = s.telegramUrl;
+            if (channel === 'instagram') targetUrl = s.instagramUrl;
+
+            if (targetUrl && targetUrl.trim()) {
+                window.open(targetUrl.trim(), '_blank');
+            } else {
+                switchMainTab('vip');
+                showToast('Configure o link oficial do grupo na aba "Links & Configurações" do Painel Admin!', 'info');
+            }
+        };
+
+        // =========================================================================
+        // 7. NAVIGATION, TABS & ADMIN PIN SECURITY
+        // =========================================================================
+        window.switchMainTab = function(tabName) {
+            appState.activeMainTab = tabName;
+
+            ['offers', 'featured', 'coupons', 'vip'].forEach(t => {
+                const btn = document.getElementById(`tabBtn-${t}`);
+                if (!btn) return;
+                if (t === tabName) {
+                    btn.className = 'main-tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap transition bg-orange-600 text-white shadow-sm';
+                } else {
+                    btn.className = 'main-tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap transition text-slate-600 hover:bg-slate-200/70';
+                }
+            });
+
+            const viewOffers = document.getElementById('view-offers');
+            const viewCoupons = document.getElementById('view-coupons');
+            const viewVip = document.getElementById('view-vip');
+
+            viewOffers.classList.add('hidden');
+            viewCoupons.classList.add('hidden');
+            viewVip.classList.add('hidden');
+
+            if (tabName === 'offers' || tabName === 'featured') {
+                viewOffers.classList.remove('hidden');
+                applyFiltersAndRender();
+            } else if (tabName === 'coupons') {
+                viewCoupons.classList.remove('hidden');
+                renderCoupons();
+            } else if (tabName === 'vip') {
+                viewVip.classList.remove('hidden');
+            }
+        };
+
+        window.selectCategory = function(cat) {
+            appState.selectedCategory = cat;
+            renderCategoryPills();
+            applyFiltersAndRender();
+        };
+
+        window.handleSearchInput = function(val) {
+            appState.searchQuery = val;
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (val && val.trim().length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+            if (appState.activeMainTab !== 'offers' && appState.activeMainTab !== 'featured') {
+                switchMainTab('offers');
+            } else {
+                applyFiltersAndRender();
+            }
+        };
+
+        window.clearSearch = function() {
+            document.getElementById('searchInput').value = '';
+            handleSearchInput('');
+        };
+
+        window.resetAllFilters = function() {
+            appState.selectedCategory = 'Todas';
+            appState.selectedStore = 'ALL';
+            appState.searchQuery = '';
+            document.getElementById('searchInput').value = '';
+            document.getElementById('clearSearchBtn').classList.add('hidden');
+            document.getElementById('storeFilterSelect').value = 'ALL';
+            document.getElementById('sortFilterSelect').value = 'newest';
+            renderCategoryPills();
+            applyFiltersAndRender();
+        };
+
+        function checkAdminPermission(callback) {
+            const requiredPin = (appState.settings.adminPin || '').trim();
+            if (!requiredPin || appState.isAdminUnlocked) {
+                appState.isAdminUnlocked = true;
+                document.getElementById('adminModeIndicator').classList.remove('hidden');
+                document.getElementById('adminModeIndicator').classList.add('flex');
+                callback();
+                return;
+            }
+
+            openCustomDialog({
+                title: 'Acesso do Administrador',
+                message: 'Digite a senha/PIN configurada para gerenciar o KUIDAPROMOÇÕES:',
+                requirePin: true,
+                confirmText: 'Desbloquear',
+                onConfirm: (enteredPin) => {
+                    if (enteredPin === requiredPin) {
+                        appState.isAdminUnlocked = true;
+                        document.getElementById('adminModeIndicator').classList.remove('hidden');
+                        document.getElementById('adminModeIndicator').classList.add('flex');
+                        showToast('Painel Administrativo desbloqueado!', 'success');
+                        callback();
+                    } else {
+                        showToast('Senha incorreta.', 'error');
+                    }
+                }
+            });
+        }
+
+        window.handleAdminAccess = function() {
+            openAdminModal('offer');
+        };
+
+        window.openAdminModal = function(tab = 'offer') {
+            checkAdminPermission(() => {
+                populatePostGenSelect();
+                document.getElementById('adminModal').classList.remove('hidden');
+                switchAdminTab(tab);
+            });
+        };
+
+        window.closeAdminModal = function() {
+            document.getElementById('adminModal').classList.add('hidden');
+        };
+
+        window.switchAdminTab = function(tabName) {
+            const tabs = ['offer', 'coupon', 'postgen', 'settings', 'backup'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`adminTabBtn-${t}`);
+                if (!btn) return;
+                if (t === tabName) {
+                    btn.className = 'admin-tab-btn px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-2 whitespace-nowrap bg-white text-orange-600 shadow-sm';
+                } else {
+                    btn.className = 'admin-tab-btn px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-2 whitespace-nowrap text-slate-600 hover:bg-white/60';
+                }
+            });
+
+            document.getElementById('adminOfferForm').classList.toggle('hidden', tabName !== 'offer');
+            document.getElementById('adminCouponForm').classList.toggle('hidden', tabName !== 'coupon');
+            document.getElementById('adminPostGenSection').classList.toggle('hidden', tabName !== 'postgen');
+            document.getElementById('adminSettingsForm').classList.toggle('hidden', tabName !== 'settings');
+            document.getElementById('adminBackupSection').classList.toggle('hidden', tabName !== 'backup');
+        };
+
+        // =========================================================================
+        // 8. BACKUP EXPORT & IMPORT (.JSON)
+        // =========================================================================
+        window.exportBackupJson = function() {
+            const payload = {
+                brand: 'KUIDAPROMOÇÕES',
+                exportedAt: new Date().toISOString(),
+                settings: appState.settings,
+                offers: appState.offers,
+                coupons: appState.coupons
+            };
+            const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `kuidapromocoes-backup-${new Date().toISOString().slice(0, 10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('Arquivo de backup baixado com sucesso!', 'success');
+        };
+
+        window.importBackupJson = function(event) {
+            const file = event.target.files?.[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (db && currentUser) {
+                        if (Array.isArray(data.offers)) {
+                            const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'kuidapromocoes_offers');
+                            for (const item of data.offers) {
+                                const { id, ...cleanItem } = item;
+                                await addDoc(colRef, cleanItem);
+                            }
+                        }
+                        if (Array.isArray(data.coupons)) {
+                            const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'kuidapromocoes_coupons');
+                            for (const item of data.coupons) {
+                                const { id, ...cleanItem } = item;
+                                await addDoc(colRef, cleanItem);
+                            }
+                        }
+                        if (data.settings) {
+                            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'kuidapromocoes_settings', 'main_config');
+                            await setDoc(docRef, data.settings, { merge: true });
+                        }
+                    } else {
+                        if (Array.isArray(data.offers)) appState.offers = data.offers;
+                        if (Array.isArray(data.coupons)) appState.coupons = data.coupons;
+                        if (data.settings) appState.settings = { ...appState.settings, ...data.settings };
+                        applySettingsToUI();
+                        applyFiltersAndRender();
+                        renderCoupons();
+                    }
+                    showToast('Backup importado e sincronizado com sucesso!', 'success');
+                    closeAdminModal();
+                } catch (err) {
+                    console.error(err);
+                    showToast('Arquivo JSON inválido.', 'error');
+                }
+            };
+            reader.readAsText(file);
+        };
+
+        // =========================================================================
+        // 9. UTILITY HELPERS (CLIPBOARD, DIALOG, TOAST, FORMATTING)
+        // =========================================================================
+        function calculateDiscountPercent(oldPrice, promoPrice) {
+            const oldP = Number(oldPrice) || 0;
+            const promoP = Number(promoPrice) || 0;
+            if (oldP <= 0 || promoP <= 0 || promoP >= oldP) return 0;
+            return Math.round(((oldP - promoP) / oldP) * 100);
+        }
+
+        function formatCurrencyBRL(value) {
+            const num = Number(value) || 0;
+            return num.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        function formatRelativeTime(timestamp) {
+            if (!timestamp) return 'Agora';
+            const diffSeconds = Math.floor((Date.now() - timestamp) / 1000);
+            if (diffSeconds < 60) return 'Agora mesmo';
+            const diffMinutes = Math.floor(diffSeconds / 60);
+            if (diffMinutes < 60) return `Há ${diffMinutes} min`;
+            const diffHours = Math.floor(diffMinutes / 60);
+            if (diffHours < 24) return `Há ${diffHours}h`;
+            const diffDays = Math.floor(diffHours / 24);
+            return `Há ${diffDays}d`;
+        }
+
+        function getStoreBadgeStyle(storeName = '') {
+            const s = storeName.toLowerCase();
+            if (s.includes('amazon')) return 'bg-slate-900 text-amber-400';
+            if (s.includes('mercado livre') || s.includes('mercadolivre')) return 'bg-yellow-400 text-slate-900';
+            if (s.includes('shopee')) return 'bg-orange-600 text-white';
+            if (s.includes('magalu') || s.includes('magazine')) return 'bg-blue-600 text-white';
+            if (s.includes('aliexpress')) return 'bg-red-600 text-white';
+            if (s.includes('shein')) return 'bg-black text-white';
+            if (s.includes('kabum')) return 'bg-orange-500 text-white';
+            return 'bg-slate-100 text-slate-800 border border-slate-200';
+        }
+
+        function escapeHtml(str = '') {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        window.copyTextToClipboard = function(text, successMessage = 'Copiado!') {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast(successMessage, 'success');
+            } catch (err) {
+                console.error('Erro ao copiar:', err);
+                showToast('Não foi possível copiar automaticamente.', 'error');
+            }
+            document.body.removeChild(textarea);
+        };
+
+        let activeDialogCallback = null;
+        function openCustomDialog({ title, message, requirePin = false, confirmText = 'Confirmar', onConfirm }) {
+            document.getElementById('dialogTitle').textContent = title;
+            document.getElementById('dialogMessage').textContent = message;
+            document.getElementById('dialogConfirmBtn').textContent = confirmText;
+
+            const pinBox = document.getElementById('dialogPinInputContainer');
+            const pinInput = document.getElementById('dialogPinInput');
+            if (requirePin) {
+                pinBox.classList.remove('hidden');
+                pinInput.value = '';
+                setTimeout(() => pinInput.focus(), 50);
+            } else {
+                pinBox.classList.add('hidden');
+            }
+
+            activeDialogCallback = () => {
+                const pinVal = pinInput.value;
+                closeCustomDialog();
+                if (onConfirm) onConfirm(pinVal);
+            };
+
+            document.getElementById('dialogConfirmBtn').onclick = activeDialogCallback;
+            document.getElementById('customDialogModal').classList.remove('hidden');
+        }
+
+        window.closeCustomDialog = function() {
+            document.getElementById('customDialogModal').classList.add('hidden');
+            activeDialogCallback = null;
+        };
+
+        window.showToast = function(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            let icon = 'fa-circle-check text-emerald-400';
+            if (type === 'error') icon = 'fa-circle-exclamation text-red-400';
+            if (type === 'info') icon = 'fa-circle-info text-orange-400';
+
+            toast.className = 'pointer-events-auto bg-slate-900 text-white px-4 py-3.5 rounded-2xl shadow-xl border border-slate-700 flex items-center gap-3 text-xs sm:text-sm font-semibold transition-all duration-300';
+            toast.innerHTML = `
+                <i class="fa-solid ${icon} text-base shrink-0"></i>
+                <span class="flex-1">${escapeHtml(message)}</span>
+            `;
+
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(10px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3400);
+        };
+
+        // Start Application
+        window.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
